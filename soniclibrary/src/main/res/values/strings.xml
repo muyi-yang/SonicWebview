@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SonicLibrary</string>
+    <string name="error_remind">网络异常，我也很无奈啊！！！</string>
+    <string name="error_retry">重新加载</string>
+</resources>
