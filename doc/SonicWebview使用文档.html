@@ -12,7 +12,7 @@
 <li><a href="#快速使用">快速使用</a><ul>
 <li><ul>
 <li><a href="#使用默认activity打开url">使用默认Activity打开URL</a></li>
-<li><a href="#继承baseactivity实现自定义页面">继承BaseActivity，实现自定义页面</a></li>
+<li><a href="#继承basewebactivity实现自定义页面">继承BaseWebActivity，实现自定义页面</a></li>
 <li><a href="#使用默认fragment打开url">使用默认Fragment打开URL</a></li>
 <li><a href="#集成basewebfragment实现自定义页面">集成BaseWebFragment，实现自定义页面</a></li>
 </ul>
@@ -81,14 +81,12 @@
 
 
 
-<h4 id="继承baseactivity实现自定义页面">继承BaseActivity，实现自定义页面</h4>
+<h4 id="继承basewebactivity实现自定义页面">继承BaseWebActivity，实现自定义页面</h4>
 
 <p>继承BaseWebActivity实现自定义页面，需遵守以下几个规则：</p>
 
 <ol start="1"><li rel="1">setContentView布局中必需包含一个id为@+id/webview的WebView控件，类似于ListActivity的设计。例如：</li>
 </ol>
-
-
 
 <pre class="prettyprint hljs-dark"><code class="language-xml hljs"><div class="hljs-line"><span class="php"><span class="hljs-meta">&lt;?</span>xml version=<span class="hljs-string">"1.0"</span> encoding=<span class="hljs-string">"utf-8"</span><span class="hljs-meta">?&gt;</span></span>
 </div><div class="hljs-line"><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
