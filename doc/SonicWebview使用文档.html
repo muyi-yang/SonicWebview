@@ -1,0 +1,219 @@
+<!DOCTYPE html><html><head><title>SonicWebview使用文档</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        
+                    
+
+<h1 id="sonicwebview使用文档">SonicWebview使用文档</h1>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#sonicwebview使用文档">SonicWebview使用文档</a><ul>
+<li><a href="#简介">简介</a></li>
+<li><a href="#配置">配置</a></li>
+<li><a href="#快速使用">快速使用</a><ul>
+<li><ul>
+<li><a href="#使用默认activity打开url">使用默认Activity打开URL</a></li>
+<li><a href="#继承baseactivity实现自定义页面">继承BaseActivity，实现自定义页面</a></li>
+<li><a href="#使用默认fragment打开url">使用默认Fragment打开URL</a></li>
+<li><a href="#集成basewebfragment实现自定义页面">集成BaseWebFragment，实现自定义页面</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#扩展使用">扩展使用</a><ul>
+<li><ul>
+<li><a href="#配置加载样式及无网提醒">配置加载样式及无网提醒</a></li>
+<li><a href="#vassonic相关的配置">VasSonic相关的配置</a></li>
+<li><a href="#webviewmanager的介绍">WebViewManager的介绍</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#源码及demo">源码及demo</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+<h2 id="简介">简介</h2>
+
+<p>SonicWebview是android平台的网址访问库，其内核是腾讯<a href="https://github.com/Tencent/VasSonic" target="_blank">VasSonic</a>，可以提高网址浏览速度，对于提速原理有兴趣的可以查看<a href="https://github.com/Tencent/VasSonic/tree/master/sonic-android/docs" target="_blank">VasSonic android 文档</a>。在此基础上封装了一些常规操作和配置，可使快速集成webview，不必在乎各种配置细节。库全部使用kotlin实现，可以和java无缝使用，如果遇到使用问题请当面咨询。</p>
+
+<h2 id="配置">配置</h2>
+
+<p>在项目build.gradle中添加依赖：</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-gradle hljs"><div class="hljs-line"><span class="hljs-keyword">allprojects</span> {
+</div><div class="hljs-line">    <span class="hljs-keyword">repositories</span> {
+</div><div class="hljs-line">        google()
+</div><div class="hljs-line">        jcenter()
+</div><div class="hljs-line">        maven { url <span class="hljs-string">'http://nexus.hz.halove.org/nexus/content/repositories/android/'</span> }
+</div><div class="hljs-line">    }
+</div><div class="hljs-line">}
+</div><div class="hljs-line"><span class="hljs-keyword">dependencies</span> {
+</div><div class="hljs-line">    <span class="hljs-keyword">compile</span> <span class="hljs-string">"com.halove.android.tools:SonicWebLib:0.0.6_alpha"</span>
+</div><div class="hljs-line">}
+</div></code></pre>
+
+<h2 id="快速使用">快速使用</h2>
+
+
+
+<h4 id="使用默认activity打开url">使用默认Activity打开URL</h4>
+
+<p>BrowseActivity可一定程度的定制ActionBar，具体参数请看下面代码：</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line">Intent intent = <span class="hljs-keyword">new</span> Intent(MainActivity.<span class="hljs-keyword">this</span>, BrowseActivity.class);
+</div><div class="hljs-line">intent.putExtra(Constants.INSTANCE.getPARAM_URL(), <span class="hljs-string">"http://www.halove.com"</span>);<span class="hljs-comment">//必需，访问的地址</span>
+</div><div class="hljs-line">intent.putExtra(Constants.INSTANCE.getPARAM_BACK_FORCE_FINISH(), <span class="hljs-keyword">false</span>);<span class="hljs-comment">//可选，点击头部的返回按钮是否强制结束Activity，默认false</span>
+</div><div class="hljs-line">intent.putExtra(Constants.INSTANCE.getPARAM_ACTIONBAR_SHOW(), <span class="hljs-keyword">false</span>);<span class="hljs-comment">//可选，是否显示Activity ActionBar，默认true</span>
+</div><div class="hljs-line">intent.putExtra(Constants.INSTANCE.getPARAM_ACTIONBAR_BACK_SHOW(), <span class="hljs-keyword">false</span>);<span class="hljs-comment">//可选，是否显示ActionBar中的返回按钮，默认true</span>
+</div><div class="hljs-line">intent.putExtra(Constants.INSTANCE.getPARAM_TITLE(), <span class="hljs-string">"测试title"</span>);<span class="hljs-comment">//可选，给定title，否则自动获取网页title</span>
+</div><div class="hljs-line">startActivity(intent);
+</div></code></pre>
+
+
+
+<h4 id="继承baseactivity实现自定义页面">继承BaseActivity，实现自定义页面</h4>
+
+<p>继承BaseWebActivity实现自定义页面，需遵守以下几个规则：</p>
+
+<ol start="1"><li rel="1">setContentView布局中必需包含一个id为@+id/webview的WebView控件，类似于ListActivity的设计。例如：</li>
+</ol>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-xml hljs"><div class="hljs-line"><span class="php"><span class="hljs-meta">&lt;?</span>xml version=<span class="hljs-string">"1.0"</span> encoding=<span class="hljs-string">"utf-8"</span><span class="hljs-meta">?&gt;</span></span>
+</div><div class="hljs-line"><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
+</span></div><div class="hljs-line">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+</div><div class="hljs-line">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span>&gt;
+</div><div class="hljs-line">    <span class="hljs-tag">&lt;<span class="hljs-name">xxx</span> /&gt;</span>
+</div><div class="hljs-line">    <span class="hljs-tag">&lt;<span class="hljs-name">WebView</span>
+</span></div><div class="hljs-line">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/webview"</span>
+</div><div class="hljs-line">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+</div><div class="hljs-line">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span>&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">WebView</span>&gt;</span>
+</div><div class="hljs-line">    <span class="hljs-tag">&lt;<span class="hljs-name">xxx</span> /&gt;</span>
+</div><div class="hljs-line"><span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span>
+</div></code></pre>
+
+<ol start="2"><li rel="2">子类必需重写getUrl()方法，以确认访问地址。</li>
+</ol>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line"><span class="hljs-meta">@NotNull</span>
+</div><div class="hljs-line"><span class="hljs-meta">@Override</span>
+</div><div class="hljs-line"><span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getUrl</span><span class="hljs-params">()</span> </span>{
+</div><div class="hljs-line">    <span class="hljs-keyword">return</span> <span class="hljs-string">"http://www.halove.com"</span>;
+</div><div class="hljs-line">}
+</div></code></pre>
+
+<h4 id="使用默认fragment打开url">使用默认Fragment打开URL</h4>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line">Fragment fragment = <span class="hljs-keyword">new</span> BrowseFragment();
+</div><div class="hljs-line">Bundle args = <span class="hljs-keyword">new</span> Bundle();
+</div><div class="hljs-line">args.putString(Constants.INSTANCE.getPARAM_URL(), <span class="hljs-string">"http://www.halove.com"</span>);<span class="hljs-comment">//必需，访问的地址</span>
+</div><div class="hljs-line">fragment.setArguments(args);
+</div><div class="hljs-line"><span class="hljs-comment">//fragment怎么添加到界面，根据你的需求而定</span>
+</div></code></pre>
+
+
+
+<h4 id="集成basewebfragment实现自定义页面">集成BaseWebFragment，实现自定义页面</h4>
+
+<p>集成BaseWebFragment，实现自定义页面，实现方式和规则跟BaseWebActivity一样，布局中必需包含一个id为@+id/webview的WebView控件，并重写getUrl()方法。请参考BaseWebActivity用法。</p>
+
+<hr>
+
+
+
+<h2 id="扩展使用">扩展使用</h2>
+
+
+
+<h4 id="配置加载样式及无网提醒">配置加载样式及无网提醒</h4>
+
+<p>配置加载样式及无网提醒需要子类重写getWebViewStyleConfig()方法，返回WebViewStyleConfig样式配置实体。Activity和Fragment都一样。</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line"><span class="hljs-meta">@NotNull</span>
+</div><div class="hljs-line"><span class="hljs-meta">@Override</span>
+</div><div class="hljs-line"><span class="hljs-function"><span class="hljs-keyword">public</span> WebViewStyleConfig <span class="hljs-title">getWebViewStyleConfig</span><span class="hljs-params">()</span> </span>{
+</div><div class="hljs-line">    WebViewStyleConfig config = <span class="hljs-keyword">new</span> WebViewStyleConfig();
+</div><div class="hljs-line"><span class="hljs-comment">//        config.setShowLoadProgress(false);//显示加载进度</span>
+</div><div class="hljs-line"><span class="hljs-comment">//        config.setShowLoadErrorLayout(false);//显示加载错误布局</span>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-comment">//        config.setShowErrorIcon(false);//显示错误icon图标</span>
+</div><div class="hljs-line">    config.setLoadErrorIconRes(R.drawable.ic_error);<span class="hljs-comment">//加载错误icon提醒,也可以调用setLoadErrorIconBitmap方法</span>
+</div><div class="hljs-line"><span class="hljs-comment">//        config.setLoadErrorIconBitmap(errorBitmap);</span>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-comment">//        config.setShowErrorText(false);//显示加载错误提醒文字</span>
+</div><div class="hljs-line">    config.setLoadErrorText(<span class="hljs-string">"加载错误，请检查网络"</span>);<span class="hljs-comment">//设置加载错误文字</span>
+</div><div class="hljs-line">    config.setLoadErrorTextColor(Color.RED);<span class="hljs-comment">//加载错误文字颜色</span>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-comment">//        config.setShowErrorBtn(false);//显示错误提醒按钮</span>
+</div><div class="hljs-line">    config.setLoadErrorBtnTextColor(Color.YELLOW);<span class="hljs-comment">//设置加载错误提醒按钮颜色</span>
+</div><div class="hljs-line">    config.setLoadErrorBtnText(<span class="hljs-string">"重新加载"</span>);<span class="hljs-comment">//设置加载错误提醒按钮文字</span>
+</div><div class="hljs-line">    config.setLoadErrorBtnBgRes(R.drawable.ic_selected);<span class="hljs-comment">//设置加载错误提醒按钮背景</span>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line">    config.setFullScreenRefreshMode(<span class="hljs-keyword">true</span>);<span class="hljs-comment">//设置点击全屏刷新模式，只在加载错误后，显示错误页面起效</span>
+</div><div class="hljs-line">    <span class="hljs-keyword">return</span> config;
+</div><div class="hljs-line">}
+</div></code></pre>
+
+
+
+<h4 id="vassonic相关的配置">VasSonic相关的配置</h4>
+
+<p>一般情况下不需要用到VasSonic相关的配置，如果需要，请确保你清楚VasSonic的原理及使用，<a href="https://github.com/Tencent/VasSonic/blob/master/sonic-android/docs/Sonic%E6%8E%A5%E5%85%A5%E6%8C%87%E5%BC%95.md" target="_blank">VasSonic使用指南</a>。重写以下这些方法实现自定义功能（以下为kotlin实现，java类似）：</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line"><span class="hljs-function">fun <span class="hljs-title">getSonicRuntime</span><span class="hljs-params">(context: Context)</span>: SonicRuntime </span>{
+</div><div class="hljs-line">    <span class="hljs-keyword">return</span> CustomSonicRuntime(context)<span class="hljs-comment">//自定义SonicRuntime</span>
+</div><div class="hljs-line">}
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-function">fun <span class="hljs-title">getSonicSessionClient</span><span class="hljs-params">()</span>: SonicSessionClient </span>{
+</div><div class="hljs-line">    <span class="hljs-keyword">return</span> CustomSonicSessionClient()<span class="hljs-comment">//自定义SonicSessionClient</span>
+</div><div class="hljs-line">}
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-function">fun <span class="hljs-title">getSonicConfig</span><span class="hljs-params">()</span>: SonicConfig </span>{
+</div><div class="hljs-line">    <span class="hljs-keyword">return</span> SonicConfig.Builder().build()<span class="hljs-comment">//手动配置SonicConfig</span>
+</div><div class="hljs-line">}
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-function">fun <span class="hljs-title">getSonicSessionConfig</span><span class="hljs-params">()</span>: SonicSessionConfig </span>{
+</div><div class="hljs-line">    <span class="hljs-keyword">return</span> SonicSessionConfig.Builder().build()<span class="hljs-comment">//手动配置SonicSessionConfig</span>
+</div><div class="hljs-line">}
+</div></code></pre>
+
+
+
+<h4 id="webviewmanager的介绍">WebViewManager的介绍</h4>
+
+<p>WebViewManager是webview管理封装类，管理着VasSonic的使用和webview本身的一些配置，及加载错误时提醒的页面样式。WebViewManager对象在BaseWebActivity和BaseWebFragment中是保护型的，子类可随时使用。还有一个对象同样是保护型的，就是webview对象，此处设计不是很合理，本想封死webview的引用，但是又担心有某些需求需要用到，所以在父类开放了。后续可能会封装死，在没有更好的设计前暂时开放。</p>
+
+<p><code>loadUrl(url: String)</code>：加载网页。</p>
+
+<p><code>setWebViewClient(webViewClient: WebViewClient)</code>：为webview设置WebViewClient，必须使用此方法，否则VasSonic的加速效果将无效。</p>
+
+<p><code>setWebChromeClient(webChromeClient: WebChromeClient)</code>：为webview设置WebChromeClient，必须使用此方法，否则会影响进度显示和加载错误提醒的view的显示。</p>
+
+<p><code>setWebViewStyleConfig(config: WebViewStyleConfig)</code>：设置加载错误提醒view风格配置。继承Base类不需要手动使用此方法，请重写父类的getWebViewStyleConfig方法，只有整个页面都自己实现时才会用到。不建议这么做，否则就没必要集成此库，尽量使用默认页面或继承Base类实现，如果遇到问题可及时反馈，扩展库来达到要求。</p>
+
+<p><code>goBack()</code>：调用其返回上一页浏览，继承Base类不需要手动使用此方法，只有整个页面都自己实现时才会用到。不建议这么做，尽量使用默认页面或继承Base类实现，如果遇到问题可及时反馈，扩展库来达到要求。</p>
+
+<p><code>onDestroy()</code>：释放VasSonic的一些资源。继承Base类不需要手动使用此方法，只有整个页面都自己实现时才会用到。在页面销毁时调用。不建议这么做，尽量使用默认页面或继承Base类实现，如果遇到问题可及时反馈，扩展库来达到要求。</p>
+
+<h2 id="源码及demo">源码及demo</h2>
+
+<p>地址：<a href="https://github.com/muyi-yang/SonicWebview" target="_blank">https://github.com/muyi-yang/SonicWebview</a></p></div></body></html>
