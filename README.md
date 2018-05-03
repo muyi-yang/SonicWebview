@@ -28,7 +28,7 @@ intent.putExtra(Constants.INSTANCE.getPARAM_ACTIONBAR_BACK_SHOW(), false);//可�
 intent.putExtra(Constants.INSTANCE.getPARAM_TITLE(), "测试title");//可选，给定title，否则自动获取网页title
 startActivity(intent);
 ```
-#### 继承BaseActivity，实现自定义页面
+#### 继承BaseWebActivity，实现自定义页面
 继承BaseWebActivity实现自定义页面，需遵守以下几个规则：
 1. setContentView布局中必需包含一个id为@+id/webview的WebView控件，类似于ListActivity的设计。例如：
 ``` xml
