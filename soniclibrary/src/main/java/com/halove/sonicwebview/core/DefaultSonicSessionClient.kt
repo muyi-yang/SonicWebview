@@ -1,4 +1,4 @@
-package com.halove.sonicwebview
+package com.halove.sonicwebview.core
 
 import android.os.Bundle
 import android.webkit.WebView

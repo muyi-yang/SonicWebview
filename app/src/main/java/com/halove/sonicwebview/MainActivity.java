@@ -24,8 +24,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, BrowseActivity.class);
-//                intent.putExtra(Constants.INSTANCE.getPARAM_URL(), "http://www.halove.com");
-                intent.putExtra(Constants.INSTANCE.getPARAM_URL(), "https://www.halove.com/manual/v1su");
+//                intent.putExtra(Constants.INSTANCE.getPARAM_URL(), "https://v.qq.com");
+//                intent.putExtra(Constants.INSTANCE.getPARAM_URL(), "https://www.halove.com/manual/v1su");
+                intent.putExtra(Constants.INSTANCE.getPARAM_URL(), "https://mp.weixin.qq.com/s/4Cr7Qr_X3DdafP6pJXkXiQ");
+//                intent.putExtra(Constants.INSTANCE.getPARAM_URL(), "http://youku.com/");
 //                intent.putExtra(Constants.INSTANCE.getPARAM_ACTIONBAR_SHOW(), false);//是否显示actionBar
 //                intent.putExtra(Constants.INSTANCE.getPARAM_ACTIONBAR_BACK_SHOW(), false);//是否显示actionBar上的返回按钮
                 intent.putExtra(Constants.INSTANCE.getPARAM_BACK_FORCE_FINISH(), true);//按actionBar的返回键是否强制关闭页面

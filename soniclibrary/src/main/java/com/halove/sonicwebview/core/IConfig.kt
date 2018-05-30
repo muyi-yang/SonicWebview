@@ -1,6 +1,7 @@
-package com.halove.sonicwebview
+package com.halove.sonicwebview.core
 
 import android.content.Context
+import com.halove.sonicwebview.ui.state.StateViewConfig
 import com.tencent.sonic.sdk.SonicConfig
 import com.tencent.sonic.sdk.SonicRuntime
 import com.tencent.sonic.sdk.SonicSessionClient
@@ -27,8 +28,8 @@ interface IConfig {
         return DefaultSonicSessionClient()
     }
 
-    fun getWebViewStyleConfig(): WebViewStyleConfig {
-        return WebViewStyleConfig()
+    fun getStateViewConfig(): StateViewConfig {
+        return StateViewConfig()
     }
 
     abstract fun getUrl(): String

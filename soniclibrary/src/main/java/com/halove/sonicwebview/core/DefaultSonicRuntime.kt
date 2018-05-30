@@ -11,7 +11,7 @@
  *
  */
 
-package com.halove.sonicwebview
+package com.halove.sonicwebview.core
 
 import android.content.Context
 import android.os.Build
@@ -20,6 +20,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.webkit.CookieManager
 import android.webkit.WebResourceResponse
+import com.halove.sonicwebview.BuildConfig
 import com.halove.sonicwebview.tools.AppUtils
 
 import com.tencent.sonic.sdk.SonicRuntime

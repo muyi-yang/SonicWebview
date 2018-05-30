@@ -6,9 +6,10 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.WindowManager
 import android.webkit.WebView
-import com.halove.sonicwebview.IConfig
+import com.halove.sonicwebview.core.IConfig
+import com.halove.sonicwebview.ui.video.IRequestedOrientation
 import com.halove.sonicwebview.R
-import com.halove.sonicwebview.WebViewManager
+import com.halove.sonicwebview.core.WebViewManage
 import com.halove.sonicwebview.tools.AppUtils
 
 /**
@@ -16,20 +17,24 @@ import com.halove.sonicwebview.tools.AppUtils
  */
 abstract class BaseWebActivity : AppCompatActivity(), IConfig {
 
-    protected lateinit var webViewManager: WebViewManager
+    protected lateinit var webViewManager: WebViewManage
     protected var webView: WebView? = null
 
     override fun onContentChanged() {
         super.onContentChanged()
-        webView = findViewById(R.id.webview) as WebView
+        webView = findViewById(R.id.webview)
         if (webView == null) {
             Log.e("BaseWebActivity", "WebView is null, not setContentView or layout does not include WebView?")
             return
         }
-        webViewManager = WebViewManager(webView)
-        webViewManager.setWebViewStyleConfig(getWebViewStyleConfig())
+        webViewManager = WebViewManage(webView!!)
         webViewManager.onCreate(AppUtils.checkUrl(getUrl()), getSonicRuntime(applicationContext), getSonicConfig(),
-                getSonicSessionConfig(), getSonicSessionClient())
+                getSonicSessionConfig(), getSonicSessionClient(), getStateViewConfig())
+        webViewManager.setRequestedOrientation(object: IRequestedOrientation {
+            override fun requestedOrientation(orientation: Int) {
+                requestedOrientation = orientation
+            }
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {

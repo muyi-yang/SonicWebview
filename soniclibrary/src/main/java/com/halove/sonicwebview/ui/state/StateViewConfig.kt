@@ -1,11 +1,12 @@
-package com.halove.sonicwebview
+package com.halove.sonicwebview.ui.state
 
 import android.graphics.Bitmap
 
 /**
+ * 状态视图配置
  * Created by yanglijun on 18-3-24.
  */
-class WebViewStyleConfig {
+class StateViewConfig {
 
     var isShowLoadProgress = true
     var isShowLoadErrorLayout = true

@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.halove.sonicwebview" >
+    package="com.halove.sonicwebview">
+
     <application>
-        <activity android:name=".ui.BrowseActivity"/>
+        <activity
+            android:name=".ui.BrowseActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:hardwareAccelerated="true" />
     </application>
 </manifest>

@@ -5,10 +5,10 @@ import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
-import com.halove.sonicwebview.IConfig
+import com.halove.sonicwebview.core.IConfig
 import com.halove.sonicwebview.IFragmentBackHandler
 import com.halove.sonicwebview.R
-import com.halove.sonicwebview.WebViewManager
+import com.halove.sonicwebview.core.WebViewManage
 import com.halove.sonicwebview.tools.AppUtils
 import com.halove.sonicwebview.tools.BackHandlerHelper
 
@@ -17,20 +17,19 @@ import com.halove.sonicwebview.tools.BackHandlerHelper
  */
 abstract class BaseWebFragment : Fragment(), IFragmentBackHandler, IConfig {
 
-    protected var webViewManager: WebViewManager? = null
+    protected var webViewManager: WebViewManage? = null
     protected var webView: WebView? = null
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        webView = view?.findViewById(R.id.webview) as WebView
+        webView = view?.findViewById(R.id.webview)
         if (webView == null) {
             Log.e("BaseWebFragment", "WebView is null, not setContentView or layout does not include WebView?")
             return
         }
         if (webViewManager == null) {
-            webViewManager = WebViewManager(webView)
-            webViewManager!!.setWebViewStyleConfig(getWebViewStyleConfig())
+            webViewManager = WebViewManage(webView!!)
             webViewManager!!.onCreate(AppUtils.checkUrl(getUrl()), getSonicRuntime(context), getSonicConfig(),
-                    getSonicSessionConfig(), getSonicSessionClient())
+                    getSonicSessionConfig(), getSonicSessionClient(), getStateViewConfig())
         }
     }
 

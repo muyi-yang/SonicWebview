@@ -1,11 +1,11 @@
 package com.halove.sonicwebview;
 
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.halove.sonicwebview.ui.BaseWebActivity;
+import com.halove.sonicwebview.ui.state.StateViewConfig;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -29,8 +29,8 @@ public class TestBrowseActivity extends BaseWebActivity {
 
     @NotNull
     @Override
-    public WebViewStyleConfig getWebViewStyleConfig() {
-        WebViewStyleConfig config = new WebViewStyleConfig();
+    public StateViewConfig getStateViewConfig() {
+        StateViewConfig config = new StateViewConfig();
 //        config.setShowLoadProgress(false);//显示加载进度
 //        config.setShowLoadErrorLayout(false);//显示加载错误布局
 
