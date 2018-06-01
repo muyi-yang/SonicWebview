@@ -1,8 +1,10 @@
 package com.halove.sonicwebview;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 
 import com.halove.sonicwebview.ui.BaseWebActivity;
 import com.halove.sonicwebview.ui.state.StateViewConfig;
@@ -49,5 +51,20 @@ public class TestBrowseActivity extends BaseWebActivity {
 
         config.setFullScreenRefreshMode(true);//设置点击全屏刷新模式，只在加载错误后，显示错误页面起效
         return config;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        ActionBar actionBar = getSupportActionBar();
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (actionBar != null) {
+                actionBar.hide();
+            }
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (actionBar != null) {
+                actionBar.show();
+            }
+        }
     }
 }

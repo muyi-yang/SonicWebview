@@ -22,19 +22,19 @@ class VideoViewManage(webView: WebView) {
     private var orientationCallback: IRequestedOrientation? = null
 
     fun onShowCustomView(view: View?, callback: WebChromeClient.CustomViewCallback?) {
-        orientationCallback?.requestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
         // 如果一个视图已经存在，那么立刻终止并新建一个
         if (customView != null) {
             callback?.onCustomViewHidden()
             return
         }
         customView = view
+        orientationCallback?.requestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
         var rootView: FrameLayout? = null
         if (webView.parent is FrameLayout) {
             rootView = webView.parent as FrameLayout
             rootView.addView(customView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT))
-            if(customView is FrameLayout){
+            if (customView is FrameLayout) {
                 val focusedChild = (customView as FrameLayout).getFocusedChild()
                 Log.e(TAG, "onShowCustomView focusedChild==>" + focusedChild)
             }
@@ -68,8 +68,12 @@ class VideoViewManage(webView: WebView) {
     }
 
     fun isFullScreen(): Boolean {
+        return customView != null
+    }
+
+    fun exitFullScreen(): Boolean {
         var back = false
-        if (customView != null) {
+        if (isFullScreen()) {
             back = true
             customViewCallback?.onCustomViewHidden()
         }

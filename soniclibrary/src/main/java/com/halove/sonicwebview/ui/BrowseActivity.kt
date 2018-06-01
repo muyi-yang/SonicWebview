@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.MenuItem
-import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import com.halove.sonicwebview.Constants
@@ -77,11 +76,11 @@ class BrowseActivity : BaseWebActivity() {
         when (config.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {
 //                window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
-                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 supportActionBar?.hide()
             }
             Configuration.ORIENTATION_PORTRAIT -> {
-                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 supportActionBar?.show()
 //                window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
             }

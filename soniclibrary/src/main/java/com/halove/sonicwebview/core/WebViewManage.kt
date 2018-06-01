@@ -373,8 +373,8 @@ class WebViewManage(webview: WebView) {
             webView.goBack()
             stateViewManage.setHideErrorLayout(true)
         }
-        val fullScreen = videoViewManage.isFullScreen()
-        if (fullScreen) {
+        val exitFullScreen = videoViewManage.exitFullScreen()
+        if (exitFullScreen) {
             back = true
         }
         return back

@@ -1,16 +1,17 @@
 package com.halove.sonicwebview.ui
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.WindowManager
 import android.webkit.WebView
-import com.halove.sonicwebview.core.IConfig
-import com.halove.sonicwebview.ui.video.IRequestedOrientation
 import com.halove.sonicwebview.R
+import com.halove.sonicwebview.core.IConfig
 import com.halove.sonicwebview.core.WebViewManage
 import com.halove.sonicwebview.tools.AppUtils
+import com.halove.sonicwebview.ui.video.IRequestedOrientation
 
 /**
  * Created by yanglijun on 18-2-28.
@@ -30,9 +31,17 @@ abstract class BaseWebActivity : AppCompatActivity(), IConfig {
         webViewManager = WebViewManage(webView!!)
         webViewManager.onCreate(AppUtils.checkUrl(getUrl()), getSonicRuntime(applicationContext), getSonicConfig(),
                 getSonicSessionConfig(), getSonicSessionClient(), getStateViewConfig())
-        webViewManager.setRequestedOrientation(object: IRequestedOrientation {
+        webViewManager.setRequestedOrientation(object : IRequestedOrientation {
             override fun requestedOrientation(orientation: Int) {
                 requestedOrientation = orientation
+                when (orientation) {
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> {
+                        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                    }
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> {
+                        window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                    }
+                }
             }
         })
     }
