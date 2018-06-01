@@ -83,7 +83,8 @@ class WebViewManage(webview: WebView) {
         }
         webSettings.allowFileAccess = true  //设置可以访问文件
         webSettings.useWideViewPort = true  //将图片调整到适合webview的大小
-        webSettings.loadWithOverviewMode = false // 缩放至屏幕的大小
+        webSettings.loadWithOverviewMode = true // 缩放至屏幕的大小
+        webSettings.setSupportMultipleWindows(true)
 
 
         // step 5: webview is ready now, just tell session client to bind
