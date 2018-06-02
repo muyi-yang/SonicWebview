@@ -8,6 +8,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import com.halove.sonicwebview.Constants
 import com.halove.sonicwebview.R
+import com.halove.sonicwebview.ui.base.BaseWebActivity
 
 
 /**

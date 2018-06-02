@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.halove.sonicwebview.Constants
 import com.halove.sonicwebview.R
+import com.halove.sonicwebview.ui.base.BaseWebFragment
 
 /**
  * Created by yanglijun on 18-3-21.

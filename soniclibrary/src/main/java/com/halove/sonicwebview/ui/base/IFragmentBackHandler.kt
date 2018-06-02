@@ -1,4 +1,4 @@
-package com.halove.sonicwebview
+package com.halove.sonicwebview.ui.base
 
 /**
  * Created by yanglijun on 18-3-21.

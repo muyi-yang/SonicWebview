@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.halove.sonicwebview.ui.BaseWebFragment;
+import com.halove.sonicwebview.ui.base.BaseWebFragment;
 
 import org.jetbrains.annotations.NotNull;
 

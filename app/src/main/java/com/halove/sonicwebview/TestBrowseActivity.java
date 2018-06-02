@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 
-import com.halove.sonicwebview.ui.BaseWebActivity;
+import com.halove.sonicwebview.ui.base.BaseWebActivity;
 import com.halove.sonicwebview.ui.state.StateViewConfig;
 
 import org.jetbrains.annotations.NotNull;

@@ -1,4 +1,4 @@
-package com.halove.sonicwebview.ui
+package com.halove.sonicwebview.ui.base
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import com.halove.sonicwebview.core.IConfig
-import com.halove.sonicwebview.IFragmentBackHandler
 import com.halove.sonicwebview.R
 import com.halove.sonicwebview.core.WebViewManage
 import com.halove.sonicwebview.tools.AppUtils

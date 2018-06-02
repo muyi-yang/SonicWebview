@@ -1,4 +1,4 @@
-package com.halove.sonicwebview.ui
+package com.halove.sonicwebview.ui.base
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle

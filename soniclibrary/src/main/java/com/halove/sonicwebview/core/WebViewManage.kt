@@ -29,7 +29,15 @@ class WebViewManage(webview: WebView) {
     private var webChromeClientListener: WebChromeClient? = null
     private lateinit var stateViewManage: StateViewManage
     private lateinit var videoViewManage: VideoViewManage
-
+    /**
+     * 创建页面浏览管理
+     * @param url 要访问的地址，必须
+     * @param sonicRuntime 设置SonicRuntime，可为null
+     * @param sonicConfig 设置SonicConfig，可为null
+     * @param sonicSessionConfig 设置SonicSessionConfig，可为null
+     * @param sessionClient 设置SonicSessionClient，可为null
+     * @param stateViewConfig 设置加载错误提醒view状态配置，可为null
+     */
     fun onCreate(url: String,
                  sonicRuntime: SonicRuntime = DefaultSonicRuntime(webView.context.applicationContext),
                  sonicConfig: SonicConfig = SonicConfig.Builder().build(),
@@ -397,6 +405,9 @@ class WebViewManage(webview: WebView) {
         sonicSession = null
     }
 
+    /**
+     * 设置请求屏幕方向回调
+     */
     fun setRequestedOrientation(callback: IRequestedOrientation) {
         videoViewManage.setRequestedOrientation(callback)
     }

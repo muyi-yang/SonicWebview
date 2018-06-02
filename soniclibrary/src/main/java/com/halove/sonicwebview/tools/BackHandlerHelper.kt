@@ -3,7 +3,7 @@ package com.halove.sonicwebview.tools
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
-import com.halove.sonicwebview.IFragmentBackHandler
+import com.halove.sonicwebview.ui.base.IFragmentBackHandler
 
 /**
  * 工具类，用于实现分发back事件,Fragment和Activity的外理逻辑是一样，所以两者都需要调用该类的方法
