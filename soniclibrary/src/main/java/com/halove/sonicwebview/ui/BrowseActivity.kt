@@ -3,6 +3,7 @@ package com.halove.sonicwebview.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.MenuItem
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -12,10 +13,10 @@ import com.halove.sonicwebview.ui.base.BaseWebActivity
 
 
 /**
+ * 默认浏览activity
  * Created by yanglijun on 18-2-9.
  */
-
-class BrowseActivity : BaseWebActivity() {
+open class BrowseActivity : BaseWebActivity() {
 
     private var url: String? = null
     private var title: String? = null
@@ -31,6 +32,7 @@ class BrowseActivity : BaseWebActivity() {
         forceFinish = intent.getBooleanExtra(Constants.PARAM_BACK_FORCE_FINISH, false)
         showBack = intent.getBooleanExtra(Constants.PARAM_ACTIONBAR_BACK_SHOW, true)
         if (TextUtils.isEmpty(url)) {
+            Log.e("BrowseActivity", "url is null, finish activity")
             finish()
             return
         }
@@ -42,7 +44,7 @@ class BrowseActivity : BaseWebActivity() {
         if (title != null) {
             setTitle(title)
         } else {
-            webViewManager.setWebChromeClient(object : WebChromeClient() {
+            webViewManager?.setWebChromeClient(object : WebChromeClient() {
                 override fun onReceivedTitle(view: WebView?, title: String?) {
                     super.onReceivedTitle(view, title)
                     if (title?.isNotBlank() == true) {

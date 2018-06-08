@@ -12,7 +12,7 @@ android {
         targetSdkVersion 26
         int major = 0
         int minor = 0
-        int revision = 7
+        int revision = 8
         versionCode major * 10000 + minor * 100 + revision
         versionName major + "." + minor + "." + revision+"_alpha"
 

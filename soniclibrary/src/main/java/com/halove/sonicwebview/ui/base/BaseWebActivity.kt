@@ -18,7 +18,7 @@ import com.halove.sonicwebview.ui.video.IRequestedOrientation
  */
 abstract class BaseWebActivity : AppCompatActivity(), IConfig {
 
-    protected lateinit var webViewManager: WebViewManage
+    protected var webViewManager: WebViewManage? = null
     protected var webView: WebView? = null
 
     override fun onContentChanged() {
@@ -29,9 +29,9 @@ abstract class BaseWebActivity : AppCompatActivity(), IConfig {
             return
         }
         webViewManager = WebViewManage(webView!!)
-        webViewManager.onCreate(AppUtils.checkUrl(getUrl()), getSonicRuntime(applicationContext), getSonicConfig(),
+        webViewManager?.onCreate(AppUtils.checkUrl(getUrl()), getSonicRuntime(applicationContext), getSonicConfig(),
                 getSonicSessionConfig(), getSonicSessionClient(), getStateViewConfig())
-        webViewManager.setRequestedOrientation(object : IRequestedOrientation {
+        webViewManager?.setRequestedOrientation(object : IRequestedOrientation {
             override fun requestedOrientation(orientation: Int) {
                 requestedOrientation = orientation
                 when (orientation) {
@@ -53,7 +53,7 @@ abstract class BaseWebActivity : AppCompatActivity(), IConfig {
     }
 
     override fun onDestroy() {
-        webViewManager.onDestroy()
+        webViewManager?.onDestroy()
         webView?.destroy()
         super.onDestroy()
     }
@@ -69,7 +69,8 @@ abstract class BaseWebActivity : AppCompatActivity(), IConfig {
     }
 
     override fun onBackPressed() {
-        if (!webViewManager.goBack()) {
+        val goBack = webViewManager?.goBack() ?: false
+        if (!goBack) {
             super.onBackPressed()
         }
     }
